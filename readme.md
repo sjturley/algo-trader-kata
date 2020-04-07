@@ -8,4 +8,6 @@ To get started, you'll need to add sufficient test coverage to make sure you do 
 
 There is one limitation. You may not alter anything in the framework package.
 
- 
+## Requirements
+
+Java 12
