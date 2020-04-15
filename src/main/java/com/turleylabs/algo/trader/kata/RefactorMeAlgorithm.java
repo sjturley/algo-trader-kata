@@ -55,7 +55,7 @@ public class RefactorMeAlgorithm extends BaseAlgorithm {
                     && movingAverage10.getValue() > movingAverage21.getValue()
                     && movingAverage10.getValue() > previousMovingAverage10
                     && movingAverage21.getValue() > previousMovingAverage21
-                    && (double) (lastVix.getClose()) < 25.0
+                    && (double) (lastVix.getClose()) < 19.0
                     && !(data.get(symbol).getPrice() >= (movingAverage50.getValue() * 1.15) && data.get(symbol).getPrice() >= (movingAverage200.getValue() * 1.40))
                     && (data.get(symbol).getPrice() - movingAverage10.getValue()) / movingAverage10.getValue() < 0.07) {
                 this.log(String.format("Buy %s Vix %.4f. above 10 MA %.4f", symbol, lastVix.getClose(), (data.get(symbol).getPrice() - movingAverage10.getValue()) / movingAverage10.getValue()));
@@ -71,7 +71,7 @@ public class RefactorMeAlgorithm extends BaseAlgorithm {
                 this.log(String.format("Sell %s loss of 50 day. Gain %.4f. Vix %.4f", symbol, change, lastVix.getClose()));
                 this.liquidate(symbol);
             } else {
-                if ((double) (lastVix.getClose()) > 28.0) {
+                if ((double) (lastVix.getClose()) > 22.0) {
                     this.log(String.format("Sell %s high volatility. Gain %.4f. Vix %.4f", symbol, change, lastVix.getClose()));
                     this.liquidate(symbol);
                 } else {
