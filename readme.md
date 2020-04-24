@@ -8,8 +8,10 @@ You are a developer at a hedge fund focused on algorithmic trading strategies. T
 
 *"Make the change easy, then make the easy change." -- Kent Beck*
 
-To get started, you'll need to add sufficient test coverage to make sure you do not break any of the critical algorithms. After all, one missed trade could cost our hedge fund millions! Then, take whatever approach you'd like to improve the design. Think about what design patterns may help simplify the solution. There is one limitation. You may not alter anything in the framework package. This is provided by the platform vendor and you do not have the source.
+To get started, you'll need to add sufficient test coverage to make sure you do not break any of the critical algorithms. After all, one missed trade could cost our hedge fund millions! The ApprovalTests verification library is already configured if you choose to use it.
+
+Then, take whatever approach you'd like to improve the design. Think about what design patterns may help simplify the solution and isolate logic from the framework. There is one limitation. You may not alter anything in the framework package. This is provided by the platform vendor, and you do not have the source.
 
 ## Requirements
 
-Java 12
+Java 11
