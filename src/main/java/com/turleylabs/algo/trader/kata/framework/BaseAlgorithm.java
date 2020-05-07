@@ -1,9 +1,13 @@
 package com.turleylabs.algo.trader.kata.framework;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class BaseAlgorithm {
 
@@ -88,7 +92,15 @@ public abstract class BaseAlgorithm {
     }
 
     public void run() {
-        startDate.datesUntil(endDate).forEach(date -> processData(new Slice(date)));
+        datesUntil(startDate, endDate).forEach(date -> processData(new Slice(date)));
+    }
+
+    public static List<LocalDate> datesUntil(LocalDate start, LocalDate end)
+    {
+        long diffInDays = ChronoUnit.DAYS.between(start, end);
+        return Stream.iterate(start, date -> date.plusDays(1))
+                .limit(diffInDays)
+                .collect(Collectors.toList());
     }
 
 }
