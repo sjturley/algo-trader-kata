@@ -3,6 +3,7 @@ package com.turleylabs.algo.trader.kata;
 import com.turleylabs.algo.trader.kata.framework.*;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public class RefactorMeAlgorithm extends BaseAlgorithm {
 
@@ -89,12 +90,38 @@ public class RefactorMeAlgorithm extends BaseAlgorithm {
             }
         }
 
-
         previous = getDate();
         previousMovingAverage50 = movingAverage50.getValue();
         previousMovingAverage21 = movingAverage21.getValue();
         previousMovingAverage10 = movingAverage10.getValue();
         previousPrice = data.get(symbol).getPrice();
+    }
+
+    @Override
+    public String toString() {
+        String approveString = portfolioToString();
+        approveString += tradesToString();
+        return approveString;
+    }
+
+    private String tradesToString() {
+        return "Trades{\n" +
+                trades.stream().map(this::tradeToString).reduce("", (left, right) -> left + right + "\n") +
+                "}\n";
+    }
+
+    private String tradeToString(Trade trade) {
+        return "[Date=" + trade.getDate() + ", Ticker=" + trade.getSymbol() + ", Quantity=" + trade.getNumberOfShares() + ", Price=" + trade.getAveragePrice() + "]";
+    }
+
+    public String portfolioToString() {
+        return "Portfolio{\n" +
+                portfolio.entrySet().stream().map(this::holdingToString).reduce("", (left, right) -> left + right + "\n") +
+                "}\n";
+    }
+
+    private String holdingToString(Map.Entry<String, Holding> entry) {
+        return "[Ticker=" + entry.getKey() + ", Quantity=" + entry.getValue().getQuantity() + ", Price=" +  entry.getValue().getAveragePrice() + "]";
     }
 
 }
