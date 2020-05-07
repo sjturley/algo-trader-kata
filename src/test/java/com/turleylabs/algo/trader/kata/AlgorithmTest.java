@@ -34,7 +34,7 @@ public class AlgorithmTest {
 
             @Override
             public void run() {
-                startDate.datesUntil(endDate).forEach(date -> processData(new FakeSlice(date)));
+                datesUntil(startDate, endDate).forEach(date -> processData(new FakeSlice(date)));
             }
         };
 
