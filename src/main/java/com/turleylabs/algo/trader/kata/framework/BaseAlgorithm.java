@@ -21,23 +21,25 @@ public abstract class BaseAlgorithm {
     private Slice currentSlice;
 
     public BaseAlgorithm() {
-        initialize();
+
     }
 
     protected abstract void initialize();
 
+    private void processData(Slice data) {
+        currentDate = data.getDate();
+        currentSlice = data;
 
-    public void processData(Slice data){
-        if(data.get("TQQQ") != null) {
-            currentDate = data.getDate();
-            currentSlice = data;
-
-            for(SimpleMovingAverage movingAverage : movingAverages) {
-                movingAverage.addData(data.get(movingAverage.getSymbol()).getPrice());
+        for (SimpleMovingAverage movingAverage : movingAverages) {
+            if (data.containsKey(movingAverage.getSymbol())) {
+                Bar bar = data.get(movingAverage.getSymbol());
+                if (bar != null) {
+                    movingAverage.addData(bar.getPrice());
+                }
             }
-
-            this.onData(data);
         }
+
+        this.onData(data);
     }
 
     protected abstract void onData(Slice data);
@@ -74,7 +76,7 @@ public abstract class BaseAlgorithm {
 
     protected void setHoldings(String symbol, double amount) {
         double averagePrice = currentSlice.get(symbol).getPrice();
-        int shares = (int)((amount * this.getCash()) / averagePrice);
+        int shares = (int) ((amount * this.getCash()) / averagePrice);
         Trade trade = new Trade(symbol, currentDate, shares, averagePrice, 1);
         trades.add(trade);
         portfolio.put(symbol, new Holding(averagePrice, shares));
@@ -92,11 +94,14 @@ public abstract class BaseAlgorithm {
     }
 
     public void run() {
-        datesUntil(startDate, endDate).forEach(date -> processData(new Slice(date)));
+        initialize();
+        datesUntil(startDate, endDate).forEach(date -> {
+            processData(new Slice(date, "VIX"));
+            processData(new Slice(date, "TQQQ"));
+        });
     }
 
-    public static List<LocalDate> datesUntil(LocalDate start, LocalDate end)
-    {
+    public static List<LocalDate> datesUntil(LocalDate start, LocalDate end) {
         long diffInDays = ChronoUnit.DAYS.between(start, end);
         return Stream.iterate(start, date -> date.plusDays(1))
                 .limit(diffInDays)
