@@ -1,21 +1,20 @@
 package com.turleylabs.algo.trader.kata.framework;
 
-import com.turleylabs.algo.trader.kata.framework.Bar;
-import com.turleylabs.algo.trader.kata.framework.CBOE;
-
 import java.io.*;
 import java.time.LocalDate;
 
 public class Slice {
     private final LocalDate date;
+    private String symbol;
 
-    public Slice(LocalDate tradeDate) {
+    public Slice(LocalDate tradeDate, String symbol) {
         this.date = tradeDate;
+        this.symbol = symbol;
     }
 
-    private Bar findBar() {
+    private Bar findBar(String symbol) {
         ClassLoader classLoader = getClass().getClassLoader();
-        try (BufferedReader br = new BufferedReader(new FileReader(classLoader.getResource("TQQQ.csv").getFile()))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(classLoader.getResource(symbol + ".csv").getFile()))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
@@ -31,11 +30,14 @@ public class Slice {
         return null;
     }
 
-    public boolean ContainsKey(String symbol) {
-        return findBar() == null;
+    public boolean containsKey(String symbol) {
+        return symbol.equals(this.symbol);
     }
 
     public CBOE getCBOE(String symbol) {
+        if (!containsKey(symbol)) {
+            return null;
+        }
         return findCBOE();
     }
 
@@ -58,7 +60,10 @@ public class Slice {
     }
 
     public Bar get(String symbol) {
-        return findBar();
+        if (!containsKey(symbol)) {
+            return null;
+        }
+        return findBar("TQQQ");
     }
 
     public LocalDate getDate() {

@@ -43,7 +43,6 @@ public class RefactorMeAlgorithm extends BaseAlgorithm {
         if (!movingAverage200.isReady()) return;
 
         if (data.get(symbol) == null) {
-            this.log(String.format("No data for symbol %s", symbol));
             return;
         }
         if (tookProfits) {
