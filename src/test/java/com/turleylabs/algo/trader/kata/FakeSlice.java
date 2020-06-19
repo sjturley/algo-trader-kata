@@ -49,22 +49,23 @@ class FakeSlice extends Slice {
         }
     }
 
-    public FakeSlice(LocalDate tradeDate) {
-        super(tradeDate);
-    }
-
-    @Override
-    public boolean ContainsKey(String symbol) {
-        return true;
+    public FakeSlice(LocalDate tradeDate, String symbol) {
+        super(tradeDate, symbol);
     }
 
     @Override
     public CBOE getCBOE(String symbol) {
+        if (!containsKey(symbol)) {
+            return null;
+        }
         return cboeData.get(this.getDate());
     }
 
     @Override
     public Bar get(String symbol) {
+        if (!containsKey(symbol)) {
+            return null;
+        }
         return tqqqData.get(this.getDate());
     }
 }

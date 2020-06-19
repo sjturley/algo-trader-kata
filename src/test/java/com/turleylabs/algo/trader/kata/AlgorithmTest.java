@@ -1,47 +1,36 @@
 package com.turleylabs.algo.trader.kata;
 
+import com.turleylabs.algo.trader.kata.framework.Slice;
 import org.approvaltests.Approvals;
+import org.approvaltests.reporters.QuietReporter;
 import org.approvaltests.reporters.UseReporter;
-import org.approvaltests.reporters.intellij.IntelliJReporter;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.time.LocalDate;
 
-@UseReporter(IntelliJReporter.class)
+import static org.powermock.api.mockito.PowerMockito.whenNew;
+
+@UseReporter(QuietReporter.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(RefactorMeAlgorithm.class)
 public class AlgorithmTest {
-
-    private LocalDate startDate = LocalDate.of(2010, 3, 23);
-    private LocalDate endDate = LocalDate.of(2020, 3, 6);
-
     @Test
-    public void algorithmExecutesTrades() {
+    public void algorithmExecutesTrades() throws Exception {
+        whenNew(Slice.class).withAnyArguments().then(invocation -> {
+                    LocalDate tradeDate = (LocalDate) invocation.getArguments()[0];
+                    String symbol = (String) invocation.getArguments()[1];
+                    return new FakeSlice(tradeDate, symbol);
+                }
+        );
+
         RefactorMeAlgorithm refactorAlgorithm = new RefactorMeAlgorithm();
 
         refactorAlgorithm.run();
 
         Approvals.verify(refactorAlgorithm);
     }
-
-    @Test
-    public void algorithmExecutesTradesWithTestDoubles() {
-        RefactorMeAlgorithm refactorAlgorithm = new RefactorMeAlgorithm() {
-            @Override
-            public void initialize() {
-                super.initialize();
-                this.setStartDate(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth());
-                this.setEndDate(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth());
-            }
-
-            @Override
-            public void run() {
-                datesUntil(startDate, endDate).forEach(date -> processData(new FakeSlice(date)));
-            }
-        };
-
-        refactorAlgorithm.run();
-
-        Approvals.verify(refactorAlgorithm);
-    }
-
 
 }
