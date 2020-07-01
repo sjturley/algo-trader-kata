@@ -1,0 +1,29 @@
+{
+  "name": "algo-trader-kata",
+  "version": "1.0.0",
+  "description": "Algorithmic Trading Refactoring Kata",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest --silent=false --verbose=true --runInBand",
+    "start": "tsc && node out/src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjturley/algo-trader-kata.git"
+  },
+  "keywords": [
+    "kata"
+  ],
+  "author": "Damien Klinnert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sjturley/algo-trader-kata/issues"
+  },
+  "homepage": "https://github.com/sjturley/algo-trader-kata#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
+  }
+}
