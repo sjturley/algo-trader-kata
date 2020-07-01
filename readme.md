@@ -12,6 +12,3 @@ To get started, you'll need to add sufficient test coverage to make sure you do 
 
 Then, take whatever approach you'd like to improve the design. Think about what design patterns may help simplify the solution and isolate logic from the framework. There is one limitation. You may not alter anything in the framework package. This is provided by the platform vendor, and you do not have the source.
 
-## Requirements
-
-- Java: Requires version 11
