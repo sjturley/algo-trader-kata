@@ -63,7 +63,7 @@ public class Slice {
         if (!containsKey(symbol)) {
             return null;
         }
-        return findBar("TQQQ");
+        return findBar(symbol);
     }
 
     public LocalDate getDate() {
