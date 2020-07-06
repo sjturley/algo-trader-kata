@@ -22,7 +22,7 @@ export class Slice {
     if (!this.containsKey(symbol)) {
       return null;
     }
-    return this.findBar('TQQQ');
+    return this.findBar(symbol);
   }
 
   private findCBOE(): CBOE {
